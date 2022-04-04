@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react"
 
+
 // components
 import Welcome from "./Main/Welcome"
 import Home from "./Main/Home"
 
+// context provider
+import DataContextProvider from "../context/DataContext"
+
 const Main = ()=>{
-    const [ view, setView ] = useState(true)
+    const [ view, setView ] = useState<boolean>(true)
 
     const welcomeStopper = ()=>{
         setTimeout(() => {
@@ -19,7 +23,9 @@ const Main = ()=>{
     return (
         <>
        {view &&  <Welcome/>}
+       <DataContextProvider>
        {!view && <Home/>}
+       </DataContextProvider>
         </>
     )
 }

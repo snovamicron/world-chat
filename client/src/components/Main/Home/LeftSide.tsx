@@ -1,11 +1,17 @@
+import { useContext } from 'react'
 import randomColor from 'randomcolor'
+
+// context
+import { DataContext } from '../../../context/DataContext'
+
+// interfaces
+import { userInfoType } from '../../../context/DataContext'
 
 // MUI components
 import { Box, Avatar, Typography, Divider } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 
-// dev needs
-import { arr } from '../../../dev_needs/constant'
+
 
 const LeftSide = ()=>{
     const useStyles = makeStyles({
@@ -28,17 +34,23 @@ const LeftSide = ()=>{
             backgroundColor:'#e7eee9'
         },
         avatarFont:{
-            fontSize:'1.3rem !important',
+            fontSize:'1.2rem !important',
             color:'#000',
             fontWeight:'bold !important'
         }
     })
     const classes = useStyles()
+
+
+    const {userData, setMessageReciver} = useContext(DataContext)
+    const onUSerClick = (user:userInfoType):void => {
+        setMessageReciver(user)
+    }
     return(
         <>
         <Box className={classes.wraper}>
             {
-                arr.map((ele, index) => {
+                userData.map((ele:userInfoType, index) => {
                     var colorcode = randomColor(
                         {
                             luminosity: 'light',
@@ -46,16 +58,17 @@ const LeftSide = ()=>{
                          }
                     )
                     return (
-                        <>
-                        <Box className={classes.userBox} key={index}>
+                        <Box key={index} onClick={():void => onUSerClick(ele)}>
+                        <Box className={classes.userBox}>
                             <Avatar sx={{bgcolor:colorcode}}>
                                 <Typography className={classes.avatarFont}>
                                 {ele.name.charAt(0)}
                                 </Typography>
                             </Avatar>
+                            <Typography sx={{color:'#000', marginLeft:5, marginBottom:2}}>{ele.name}</Typography>
                         </Box>
-                        <Divider variant='inset'/>
-                        </>
+                        <Divider sx={{borderColor:'#776868'}} variant='inset'/>
+                        </Box>
                     )
                 })
             }
