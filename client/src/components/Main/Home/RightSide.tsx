@@ -7,7 +7,7 @@ import { DataContext } from '../../../context/DataContext'
 import MessageTemplate from './RightSide/MessageTemplate'
 
 // MUI components
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, useMediaQuery } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 
 const RightSide = () => {
@@ -31,9 +31,10 @@ const RightSide = () => {
     })
     const classes = useStyles()
     const { messageReciver } = useContext(DataContext)
+    const matches:boolean = useMediaQuery('(min-width:600px)')
     return (
         <>
-            <Box sx={{ height: '90vh' }}>
+            <Box sx={{ height: matches?'91vh':'100vh' }}>
                 {
                     !messageReciver &&
                     <Box className={classes.wraper}>

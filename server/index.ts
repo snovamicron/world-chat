@@ -8,7 +8,7 @@ const app = express()
 const httpServer = http.createServer(app)
 const io = new Server(httpServer,{
     cors:{
-        origin:'localhost'
+        origin:'http://localhost:3000'
     }
 })
 app.use(cors())
@@ -22,7 +22,7 @@ interface userInfo{
 }
 class userDataBase{
     userArray:userInfo[] = []
-
+    
     saveTheNewUser (user:userInfo):void{
         !this.userArray.some((ele) => ele.id === user.id) && this.userArray.push(user)
     }
@@ -43,14 +43,13 @@ io.on('connection',(socket)=>{
 
     // initial listener
     socket.on('requestToJoinTheChat', ({ name, id })=>{
-        console.log(`${name} join the chat`)
-        socket.to(socket.id).emit('allUserData', database.userArray)
-        socket.broadcast.emit('newUSerJoinTheChat', name )
         database.saveTheNewUser({
             id,
             name,
             socketId:socket.id
         })
+        socket.emit('allUserData', database.userArray)
+        socket.broadcast.emit('allNewUserData', database.userArray)
     })
 
     //massage sending

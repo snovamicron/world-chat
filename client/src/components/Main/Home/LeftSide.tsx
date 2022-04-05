@@ -8,17 +8,17 @@ import { DataContext } from '../../../context/DataContext'
 import { userInfoType } from '../../../context/DataContext'
 
 // MUI components
-import { Box, Avatar, Typography, Divider } from '@mui/material'
+import { Box, Avatar, Typography, Divider, useMediaQuery, CircularProgress  } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 
 
 
 const LeftSide = ()=>{
+    const matches:boolean = useMediaQuery('(min-width:600px)')
     const useStyles = makeStyles({
         wraper:{
             borderRight:'1px solid #000',
-            height:'90vh',
-            marginTop:6,
+            height: matches?'91vh':'100vh',
             overflowY:'scroll',
             '&::-webkit-scrollbar':{
                display:'none'
@@ -49,6 +49,7 @@ const LeftSide = ()=>{
     return(
         <>
         <Box className={classes.wraper}>
+            {userData.length === 0 && <CircularProgress sx={{margin:'50px 180px'}} />}
             {
                 userData.map((ele:userInfoType, index) => {
                     var colorcode = randomColor(
@@ -60,7 +61,7 @@ const LeftSide = ()=>{
                     return (
                         <Box key={index} onClick={():void => onUSerClick(ele)}>
                         <Box className={classes.userBox}>
-                            <Avatar sx={{bgcolor:colorcode}}>
+                            <Avatar sx={{bgcolor:colorcode, border:'1px solid #000'}}>
                                 <Typography className={classes.avatarFont}>
                                 {ele.name.charAt(0)}
                                 </Typography>
