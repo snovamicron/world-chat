@@ -8,39 +8,26 @@ import { userInfoType } from '../../context/DataContext'
 import Appbar from './Home/Appbar'
 import LeftSide from './Home/LeftSide'
 import RightSide from './Home/RightSide'
-import UserDialog from './Home/UserDialog'
 
 // MUI components
 import { Grid, useMediaQuery } from '@mui/material'
 
-const User = UserDialog as React.JSXElementConstructor<{
-    open: boolean,
-    handleClose: () => void
-   }>
 
 const Home = () => {
     const matches: boolean = useMediaQuery('(min-width:600px)')
     const { messageReciver, setUserData, socket } = useContext(DataContext)
-    const [open, setOpen] = useState<boolean>(false);
     const [updatedUserData , setUpdatedUSerData] = useState<Array<userInfoType>>([])
-    socket.on('allNewUserData',(userArray:userInfoType[])=>{
-        setUpdatedUSerData(userArray)
-    })
-    const handleClickOpen = ():void => {
-      setOpen(true);
+    if(socket !== null){
+        socket.current.on('allNewUserData',(userArray:userInfoType[])=>{
+            setUpdatedUSerData(userArray)
+        })
     }
-    const handleClose = ():void => {
-      setOpen(false);
-    }
-    useEffect(()=>{
-        handleClickOpen()
-    },[])
     useEffect(()=>{
         setUserData(updatedUserData)
     },[updatedUserData])
+    
     return (
         <>
-        <User open={open} handleClose={handleClose}/> 
             {
                 matches &&
                 <>

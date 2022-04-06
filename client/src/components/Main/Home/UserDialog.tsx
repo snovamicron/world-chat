@@ -7,64 +7,67 @@ import { userInfoType } from '../../../context/DataContext';
 
 // MUI components
 import {
-    Button,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogContentText,
-    TextField,
-    DialogActions 
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  TextField,
+  DialogActions
 } from '@mui/material'
 
 type Props = {
-  open:boolean,
-  handleClickOpen: ()=>void,
-  handleClose: ()=>void
+  open: boolean,
+  handleClickOpen: () => void,
+  handleClose: () => void
 }
 
-const UserDialog = ({open, handleClose}:Props)=>{
+const UserDialog = ({ open, handleClose }: Props) => {
   interface userInfoTypeForSend {
-    name:string,
-    id:string
+    name: string,
+    id: string
   }
-  const [userInfo, setUserInfo] = useState<userInfoTypeForSend>({name:'', id:uuid()})
-  const { socket, setUserData } = useContext(DataContext)
-  const onTextChange = (e:any):void=>{
-        setUserInfo({...userInfo, name:e.target.value})
+  const [userInfo, setUserInfo] = useState<userInfoTypeForSend>({ name: '', id: uuid() })
+  const { socket, setUserData, setMessageSender } = useContext(DataContext)
+  const onTextChange = (e: any): void => {
+    setUserInfo({ ...userInfo, name: e.target.value })
   }
-  const onHandleClick = ():void=>{
-    socket.emit('requestToJoinTheChat', userInfo)
-    socket.on('allUserData',(userArray:userInfoType[]):void=>{
-      setUserData(userArray)
-    })
+  const onHandleClick = (): void => {
+    setMessageSender(userInfo)
+      sessionStorage.setItem("reloading", "true")
+      socket.current.emit('requestToJoinTheChat', userInfo)
+      socket.current.on('allUserData', (userArray: userInfoType[]): void => {
+        console.log(userArray)
+        setUserData(userArray)
+      })
     handleClose()
   }
-    return (
-      <>
-        <Dialog open={open}>
-          <DialogTitle>join the chat</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              To join as a connector in the chat please enter your name.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Enter Name"
-              type="text"
-              fullWidth
-              variant="standard"
-              value={userInfo.name}
-              onChange={(e)=>onTextChange(e)}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={onHandleClick}>Join</Button>
-          </DialogActions>
-        </Dialog>
-      </>
-    );
+  return (
+    <>
+      <Dialog open={open}>
+        <DialogTitle>join the chat</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To join as a connector in the chat please enter your name.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Enter Name"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={userInfo.name}
+            onChange={(e) => onTextChange(e)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onHandleClick}>Join</Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
 }
 
 export default UserDialog

@@ -1,17 +1,14 @@
 import http from 'http'
-import express from 'express'
 import { Server } from 'socket.io'
-import cors from 'cors'
 
 const PORT = process.env.PORT || 4000
-const app = express()
-const httpServer = http.createServer(app)
+const httpServer = http.createServer()
 const io = new Server(httpServer,{
     cors:{
-        origin:'http://localhost:3000'
+        origin:'http://localhost:3000',
+        methods:['GET', 'POST']
     }
 })
-app.use(cors())
 
 
 
@@ -25,6 +22,7 @@ class userDataBase{
     
     saveTheNewUser (user:userInfo):void{
         !this.userArray.some((ele) => ele.id === user.id) && this.userArray.push(user)
+        console.log(this.userArray)
     }
 
     activeUser (id:any):boolean{
@@ -61,9 +59,9 @@ io.on('connection',(socket)=>{
 
     // disconnect user from the chat
     socket.on('endTheChat', ({ name, userId })=>{
-        socket.broadcast.emit('anyUserLeftTheChat', name)
-        database.disconnectUser(userId)
         console.log(`${name} left the chat`)
+        database.disconnectUser(userId)
+        socket.broadcast.emit('anyUserLeftTheChat', database.userArray)
     })
 
 })
