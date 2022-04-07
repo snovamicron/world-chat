@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 
 // context
 import { DataContext } from "../../../../context/DataContext"
@@ -6,7 +6,6 @@ import { DataContext } from "../../../../context/DataContext"
 // MUI components
 import { Box, TextField, Avatar, Typography, InputAdornment } from "@mui/material"
 import { makeStyles } from "@mui/styles"
-import AccountCircle from '@mui/icons-material/AccountCircle';
 
 const MessageTemplate = () => {
     const useStyles = makeStyles({
@@ -23,7 +22,8 @@ const MessageTemplate = () => {
             alignItems: 'center'
         },
         chatBox: {
-            height: '100%'
+            height: '100%',
+            display:'flex'
         },
         textForm: {
             margin: '0 !important',
@@ -50,7 +50,23 @@ const MessageTemplate = () => {
         }
     })
     const classes = useStyles()
+    interface userObj{
+        message:string,
+        id:string
+    }
     const { messageReciver } = useContext(DataContext)
+    const user = JSON.parse(localStorage.getItem('user'))
+    const [textMessage, setTextMessage] = useState<userObj>({message:'',id:user.id})
+    const [textMessagesStore, setTextMessagesStore] = useState<Array<userObj>>([])
+    const onTextChange = (e:any):void=>{
+        setTextMessage({...textMessage, message: e.target.value})
+    }
+    const onSend = (e:any):void=>{
+        if(e.key === 'Enter'){
+            setTextMessagesStore([...textMessagesStore,textMessage])
+        }
+        
+    }
     return (
         <>
             <Box className={classes.wraper}>
@@ -59,14 +75,28 @@ const MessageTemplate = () => {
                     <Typography sx={{ fontWeight: 'bold' }}>{messageReciver.name}</Typography>
                 </Box>
                 <Box className={classes.chatBox}>
-
+                    {
+                        textMessagesStore.map(ele => {
+                            if(ele.id === user.id){
+                                return(
+                                    <Typography sx={{alignSelf:'flex-end'}}>{ele.message}</Typography>
+                                    )
+                                }else {
+                                    return(
+                                    <Typography sx={{alignSelf:'flex-start'}}>{ele.message}</Typography>
+                                )
+                            }
+                        })
+                    }
                 </Box>
                 <TextField
                     fullWidth
                     color="success"
                     focused className={classes.textForm}
                     label="TextField"
-                    onKeyUp={(e)=> console.log(e.key)}
+                    onKeyUp={(e)=> onSend(e)}
+                    onChange={(e)=> onTextChange(e)}
+                    value={textMessage.message}
                 />
             </Box>
         </>

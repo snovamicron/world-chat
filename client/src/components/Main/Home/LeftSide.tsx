@@ -59,19 +59,21 @@ const LeftSide = ()=>{
                             hue: 'green'
                          }
                     )
-                    return (
-                        <Box key={index} onClick={():void => onUSerClick(ele)}>
-                        <Box className={classes.userBox}>
-                            <Avatar sx={{bgcolor:colorcode, border:'1px solid #000'}}>
-                                <Typography className={classes.avatarFont}>
-                                {ele.name.charAt(0)}
-                                </Typography>
-                            </Avatar>
-                            <Typography sx={{color:'#000', marginLeft:5, marginBottom:2}}>{ele.name}</Typography>
-                        </Box>
-                        <Divider sx={{borderColor:'#776868'}} variant='inset'/>
-                        </Box>
-                    )
+                    if(ele.id !== user.id){
+                        return (
+                            <Box key={index} onClick={():void => onUSerClick(ele)}>
+                            <Box className={classes.userBox}>
+                                <Avatar sx={{bgcolor:colorcode, border:'1px solid #000'}}>
+                                    <Typography className={classes.avatarFont}>
+                                    {ele.name.charAt(0)}
+                                    </Typography>
+                                </Avatar>
+                                <Typography sx={{color:'#000', marginLeft:5, marginBottom:2}}>{ele.name}</Typography>
+                            </Box>
+                            <Divider sx={{borderColor:'#776868'}} variant='inset'/>
+                            </Box>
+                        )
+                    }
                 })
             }
         </Box>
