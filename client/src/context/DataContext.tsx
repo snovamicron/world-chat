@@ -2,8 +2,8 @@ import React, { ReactNode, createContext, useState, useEffect, useRef } from "re
 import { io } from 'socket.io-client'
 
 export interface userInfoType{
-    name:string,
     id:string,
+    name:string,
     socketId:any
 }
 
@@ -17,8 +17,6 @@ interface contextType {
     setUserData:React.Dispatch<React.SetStateAction<userInfoType[]>>,
     messageReciver:userInfoType,
     setMessageReciver:React.Dispatch<React.SetStateAction<userInfoType>>,
-    messageSender:userInfoTypeForSend,
-    setMessageSender:React.Dispatch<React.SetStateAction<userInfoTypeForSend>>,
     socket: any
 }
 
@@ -33,13 +31,12 @@ type Props = {
 export default function DataContextProvider ({children}:Props){
     const [userData, setUserData] = useState<Array<userInfoType>>([])
     const [messageReciver, setMessageReciver] = useState<userInfoType>()
-    const [messageSender, setMessageSender] = useState<userInfoTypeForSend>()
     const socket = useRef<any>(null)
     useEffect(()=>{
          socket.current = io('http://localhost:4000')
     },[])
     return (
-        <DataContext.Provider value={{userData, setUserData, messageReciver, setMessageReciver, socket, messageSender, setMessageSender}}>
+        <DataContext.Provider value={{userData, setUserData, messageReciver, setMessageReciver, socket}}>
             {
                 children
             }

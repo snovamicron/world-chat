@@ -22,13 +22,12 @@ class userDataBase{
     
     saveTheNewUser (user:userInfo):void{
         !this.userArray.some((ele) => ele.id === user.id) && this.userArray.push(user)
-        console.log(this.userArray)
     }
-
+    
     activeUser (id:any):boolean{
         return this.userArray.some((ele)=> ele.id === id)
     }
-
+    
     disconnectUser (id:string):void{
         this.userArray.some((ele) => ele.id === id ) && this.userArray.splice(this.userArray.findIndex((ele)=> ele.id === id), 1)
     }
@@ -51,17 +50,16 @@ io.on('connection',(socket)=>{
     })
 
     //massage sending
-    socket.on('sendMessage' ,({ senderId, reciverSocketId, message })=>{
-        if(database.activeUser(reciverSocketId)){
-            socket.to(reciverSocketId).emit('reciveMessage', {message, senderId})
+    socket.on('sendMessage' ,({ id, socketId, message })=>{
+        if(database.activeUser(socketId)){
+            socket.to(socketId).emit('reciveMessage', {message, id})
         }   
     })
 
     // disconnect user from the chat
     socket.on('endTheChat', ({ name, userId })=>{
-        console.log(`${name} left the chat`)
         database.disconnectUser(userId)
-        socket.broadcast.emit('anyUserLeftTheChat', database.userArray)
+        socket.broadcast.emit('anyUserLeftTheChat',`${name} left the chat id is ${userId}`)
     })
 
 })

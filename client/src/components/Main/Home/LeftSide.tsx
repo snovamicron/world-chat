@@ -46,6 +46,7 @@ const LeftSide = ()=>{
     const onUSerClick = (user:userInfoType):void => {
         setMessageReciver(user)
     }
+    const user = JSON.parse(localStorage.getItem('user'))
     return(
         <>
         <Box className={classes.wraper}>

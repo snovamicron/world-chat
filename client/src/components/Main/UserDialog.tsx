@@ -2,8 +2,8 @@ import { useState, useContext } from 'react';
 import { v4 as uuid } from 'uuid'
 
 // context
-import { DataContext } from '../../../context/DataContext';
-import { userInfoType } from '../../../context/DataContext';
+import { DataContext } from '../../context/DataContext';
+import { userInfoType } from '../../context/DataContext';
 
 // MUI components
 import {
@@ -28,18 +28,17 @@ const UserDialog = ({ open, handleClose }: Props) => {
     id: string
   }
   const [userInfo, setUserInfo] = useState<userInfoTypeForSend>({ name: '', id: uuid() })
-  const { socket, setUserData, setMessageSender } = useContext(DataContext)
+  const { socket, setUserData } = useContext(DataContext)
   const onTextChange = (e: any): void => {
     setUserInfo({ ...userInfo, name: e.target.value })
   }
   const onHandleClick = (): void => {
-    setMessageSender(userInfo)
-      sessionStorage.setItem("reloading", "true")
-      socket.current.emit('requestToJoinTheChat', userInfo)
-      socket.current.on('allUserData', (userArray: userInfoType[]): void => {
-        console.log(userArray)
-        setUserData(userArray)
-      })
+    let localStrogeUserInfo = JSON.stringify(userInfo)
+    localStorage.setItem('user', localStrogeUserInfo)
+    socket.current.emit('requestToJoinTheChat', userInfo)
+    socket.current.on('allUserData', (userArray: userInfoType[]): void => {
+      setUserData(userArray)
+    })
     handleClose()
   }
   return (
