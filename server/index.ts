@@ -25,7 +25,7 @@ class userDataBase{
     }
     
     activeUser (id:any):boolean{
-        return this.userArray.some((ele)=> ele.id === id)
+        return this.userArray.some((ele)=> ele.socketId === id)
     }
     
     disconnectUser (id:string):void{

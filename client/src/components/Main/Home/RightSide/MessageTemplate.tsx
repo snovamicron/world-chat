@@ -1,13 +1,14 @@
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect } from "react"
 
 // context
 import { DataContext } from "../../../../context/DataContext"
 
 // MUI components
-import { Box, TextField, Avatar, Typography, InputAdornment } from "@mui/material"
+import { Box, TextField, Avatar, Typography, useMediaQuery } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 
 const MessageTemplate = () => {
+    const matches = useMediaQuery('(min-width:800px)')
     const useStyles = makeStyles({
         wraper: {
             display: 'flex',
@@ -23,7 +24,10 @@ const MessageTemplate = () => {
         },
         chatBox: {
             height: '100%',
-            display:'flex'
+            display: 'flex',
+            flexDirection: 'column',
+            padding:'0 20px',
+            paddingTop:15,
         },
         textForm: {
             margin: '0 !important',
@@ -47,26 +51,40 @@ const MessageTemplate = () => {
             fontWeight: 'bold',
             color: '#000 !important',
             border: '1px solid #000'
+        },
+        chat:{  
+            backgroundColor:'#b5ffca',
+            padding:'5px 10px',
+            borderRadius:15,
+            maxWidth:matches?300:200,
+            wordWrap:'break-word'
         }
     })
     const classes = useStyles()
-    interface userObj{
-        message:string,
-        id:string
+    interface userObj {
+        message: string,
+        id: string,
+        connectorId:string
     }
-    const { messageReciver } = useContext(DataContext)
+    const { messageReciver, socket, textMessagesStore, setTextMessagesStore } = useContext(DataContext)
     const user = JSON.parse(localStorage.getItem('user'))
-    const [textMessage, setTextMessage] = useState<userObj>({message:'',id:user.id})
-    const [textMessagesStore, setTextMessagesStore] = useState<Array<userObj>>([])
-    const onTextChange = (e:any):void=>{
-        setTextMessage({...textMessage, message: e.target.value})
+    const [textMessage, setTextMessage] = useState<userObj>({ message: '', id: user.id, connectorId:messageReciver.id })
+    const onTextChange = (e: any): void => {
+        setTextMessage({ ...textMessage, message: e.target.value })
     }
-    const onSend = (e:any):void=>{
-        if(e.key === 'Enter'){
-            setTextMessagesStore([...textMessagesStore,textMessage])
+    const onSend = (e: any): void => {
+        if (e.key === 'Enter') {
+            setTextMessagesStore([...textMessagesStore, textMessage])
+            setTextMessage({ ...textMessage, message: '' })
+            socket.current.emit('sendMessage', { id: user.id, socketId: messageReciver.socketId, message: textMessage.message })
         }
-        
+
     }
+
+    useEffect(()=>{
+        setTextMessage({...textMessage, connectorId:messageReciver.id})
+        // eslint-disable-next-line
+    },[messageReciver])
     return (
         <>
             <Box className={classes.wraper}>
@@ -76,16 +94,22 @@ const MessageTemplate = () => {
                 </Box>
                 <Box className={classes.chatBox}>
                     {
-                        textMessagesStore.map(ele => {
-                            if(ele.id === user.id){
-                                return(
-                                    <Typography sx={{alignSelf:'flex-end'}}>{ele.message}</Typography>
-                                    )
-                                }else {
-                                    return(
-                                    <Typography sx={{alignSelf:'flex-start'}}>{ele.message}</Typography>
+                        textMessagesStore.map((ele, index) => {
+                            if (ele.id === user.id && ele.connectorId === messageReciver.id){
+                                return (
+                                   <Box key={index} sx={{ alignSelf: 'flex-end' }} className={classes.chat}>
+                                        <Typography sx={{fontWeight:'bold'}}>{ele.message}</Typography>
+                                   </Box>
                                 )
                             }
+                            if (ele.id === messageReciver.id) {
+                                return (
+                                    <Box key={index} sx={{ alignSelf: 'flex-start' }} className={classes.chat}>
+                                        <Typography sx={{fontWeight:'bold'}}>{ele.message}</Typography>
+                                    </Box>
+                                )
+                            }
+                            return null
                         })
                     }
                 </Box>
@@ -94,8 +118,8 @@ const MessageTemplate = () => {
                     color="success"
                     focused className={classes.textForm}
                     label="TextField"
-                    onKeyUp={(e)=> onSend(e)}
-                    onChange={(e)=> onTextChange(e)}
+                    onKeyUp={(e) => onSend(e)}
+                    onChange={(e) => onTextChange(e)}
                     value={textMessage.message}
                 />
             </Box>

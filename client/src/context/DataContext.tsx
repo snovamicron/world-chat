@@ -7,9 +7,10 @@ export interface userInfoType{
     socketId:any
 }
 
-interface userInfoTypeForSend{
-    name: string,
-    id: string
+interface userObj {
+    message: string,
+    id: string,
+    connectorId:string
 }
 
 interface contextType {
@@ -17,6 +18,8 @@ interface contextType {
     setUserData:React.Dispatch<React.SetStateAction<userInfoType[]>>,
     messageReciver:userInfoType,
     setMessageReciver:React.Dispatch<React.SetStateAction<userInfoType>>,
+    textMessagesStore:userObj[],
+    setTextMessagesStore:React.Dispatch<React.SetStateAction<userObj[]>>,
     socket: any
 }
 
@@ -31,12 +34,13 @@ type Props = {
 export default function DataContextProvider ({children}:Props){
     const [userData, setUserData] = useState<Array<userInfoType>>([])
     const [messageReciver, setMessageReciver] = useState<userInfoType>()
+    const [textMessagesStore, setTextMessagesStore] = useState<Array<userObj>>([])
     const socket = useRef<any>(null)
     useEffect(()=>{
          socket.current = io('http://localhost:4000')
     },[])
     return (
-        <DataContext.Provider value={{userData, setUserData, messageReciver, setMessageReciver, socket}}>
+        <DataContext.Provider value={{userData, setUserData, messageReciver, setMessageReciver, textMessagesStore, setTextMessagesStore, socket}}>
             {
                 children
             }
