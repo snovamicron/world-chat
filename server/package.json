@@ -5,15 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"nodemon index.ts"
+    "dev": "nodemon index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/ws": "^8.5.3",
     "cors": "^2.8.5",
     "express": "^4.17.3",
-    "socket.io": "^4.4.1"
+    "socket.io": "^4.4.1",
+    "ws": "^8.5.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

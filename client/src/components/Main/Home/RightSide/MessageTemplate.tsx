@@ -4,8 +4,17 @@ import { useContext, useState, useEffect } from "react"
 import { DataContext } from "../../../../context/DataContext"
 
 // MUI components
-import { Box, TextField, Avatar, Typography, useMediaQuery } from "@mui/material"
+import { Box, 
+    TextField, 
+    Avatar, 
+    Typography, 
+    useMediaQuery,
+    IconButton
+ } from "@mui/material"
 import { makeStyles } from "@mui/styles"
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+
+
 
 const MessageTemplate = () => {
     const matches = useMediaQuery('(min-width:800px)')
@@ -28,15 +37,25 @@ const MessageTemplate = () => {
             flexDirection: 'column',
             padding:'0 20px',
             paddingTop:15,
+            rowGap:15,
+            overflow:'auto'
+        },
+        formBox:{
+            display:'flex',
+            width:'100%',
+            border:'1px solid #000',
+            justifyContent:'space-between',
+            borderLeft:'none',
+            paddingRight:15
         },
         textForm: {
             margin: '0 !important',
+            marginRight:'15px !important',
             backgroundColor: '#e7eee9',
             '& > div > fieldset': {
                 borderRadius: '0 !important',
                 borderColor: '#000 !important',
-                borderWidth: '1px !important',
-                borderRight: 'none !important'
+                borderWidth: '0px !important'
             },
             '& > div > input': {
                 padding: '14px 16px !important',
@@ -72,13 +91,19 @@ const MessageTemplate = () => {
     const onTextChange = (e: any): void => {
         setTextMessage({ ...textMessage, message: e.target.value })
     }
-    const onSend = (e: any): void => {
+    const onSend = (e:any): void => {
         if (e.key === 'Enter') {
             setTextMessagesStore([...textMessagesStore, textMessage])
             setTextMessage({ ...textMessage, message: '' })
             socket.current.emit('sendMessage', { id: user.id, socketId: messageReciver.socketId, message: textMessage.message })
         }
 
+    }
+
+    const onClickSend = ():void=>{
+        setTextMessagesStore([...textMessagesStore, textMessage])
+            setTextMessage({ ...textMessage, message: '' })
+            socket.current.emit('sendMessage', { id: user.id, socketId: messageReciver.socketId, message: textMessage.message })
     }
 
     useEffect(()=>{
@@ -113,15 +138,21 @@ const MessageTemplate = () => {
                         })
                     }
                 </Box>
+                <Box className={classes.formBox}>
                 <TextField
                     fullWidth
                     color="success"
-                    focused className={classes.textForm}
-                    label="TextField"
+                    focused
+                    className={classes.textForm}
                     onKeyUp={(e) => onSend(e)}
                     onChange={(e) => onTextChange(e)}
                     value={textMessage.message}
+                    placeholder='Enter your text'
                 />
+                <IconButton onClick={onClickSend}>
+                    <SendOutlinedIcon/>
+                </IconButton>
+                </Box>
             </Box>
         </>
     )

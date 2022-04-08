@@ -41,6 +41,18 @@ const UserDialog = ({ open, handleClose }: Props) => {
     })
     handleClose()
   }
+  
+  const onHandleEnter = (e:any): void => {
+    if(e.key === 'Enter'){
+      let localStrogeUserInfo = JSON.stringify(userInfo)
+      localStorage.setItem('user', localStrogeUserInfo)
+      socket.current.emit('requestToJoinTheChat', userInfo)
+      socket.current.on('allUserData', (userArray: userInfoType[]): void => {
+        setUserData(userArray)
+      })
+      handleClose()
+    }
+  }
   return (
     <>
       <Dialog open={open}>
@@ -59,6 +71,7 @@ const UserDialog = ({ open, handleClose }: Props) => {
             variant="standard"
             value={userInfo.name}
             onChange={(e) => onTextChange(e)}
+            onKeyUp={(e)=> onHandleEnter(e)}
           />
         </DialogContent>
         <DialogActions>

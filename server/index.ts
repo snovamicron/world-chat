@@ -1,5 +1,6 @@
 import http from 'http'
 import { Server } from 'socket.io'
+import ws from 'ws'
 
 const PORT = process.env.PORT || 4000
 const httpServer = http.createServer()
@@ -7,7 +8,8 @@ const io = new Server(httpServer,{
     cors:{
         origin:'http://localhost:3000',
         methods:['GET', 'POST']
-    }
+    },
+    wsEngine: ws.Server
 })
 
 
