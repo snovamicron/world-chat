@@ -12,7 +12,8 @@ import { Box,
     IconButton
  } from "@mui/material"
 import { makeStyles } from "@mui/styles"
-import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
+import CloseIcon from '@mui/icons-material/Close'
 
 
 
@@ -29,7 +30,9 @@ const MessageTemplate = () => {
             backgroundColor: '#b5ffca',
             borderBottom: '1px solid #000',
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
+            justifyContent:'space-between',
+            paddingRight:18
         },
         chatBox: {
             height: '100%',
@@ -85,7 +88,7 @@ const MessageTemplate = () => {
         id: string,
         connectorId:string
     }
-    const { messageReciver, socket, textMessagesStore, setTextMessagesStore } = useContext(DataContext)
+    const { messageReciver, socket, textMessagesStore, setTextMessagesStore, setMessageReciver } = useContext(DataContext)
     const user = JSON.parse(localStorage.getItem('user'))
     const [textMessage, setTextMessage] = useState<userObj>({ message: '', id: user.id, connectorId:messageReciver.id })
     const onTextChange = (e: any): void => {
@@ -106,6 +109,10 @@ const MessageTemplate = () => {
             socket.current.emit('sendMessage', { id: user.id, socketId: messageReciver.socketId, message: textMessage.message })
     }
 
+    const onClose = ():void=>{
+        setMessageReciver(null)
+    }
+
     useEffect(()=>{
         setTextMessage({...textMessage, connectorId:messageReciver.id})
         // eslint-disable-next-line
@@ -114,8 +121,13 @@ const MessageTemplate = () => {
         <>
             <Box className={classes.wraper}>
                 <Box className={classes.navBar}>
+                    <Box sx={{display:'flex', alignItems:'center'}}>
                     <Avatar className={classes.avatar}>{messageReciver.name.charAt(0)}</Avatar>
                     <Typography sx={{ fontWeight: 'bold' }}>{messageReciver.name}</Typography>
+                    </Box>
+                    <IconButton onClick={onClose}>
+                        <CloseIcon/>
+                    </IconButton>
                 </Box>
                 <Box className={classes.chatBox}>
                     {

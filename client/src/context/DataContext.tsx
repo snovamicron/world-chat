@@ -16,8 +16,8 @@ interface userObj {
 interface contextType {
     userData:userInfoType[],
     setUserData:React.Dispatch<React.SetStateAction<userInfoType[]>>,
-    messageReciver:userInfoType,
-    setMessageReciver:React.Dispatch<React.SetStateAction<userInfoType>>,
+    messageReciver:userInfoType | null,
+    setMessageReciver:React.Dispatch<React.SetStateAction<userInfoType | null>>,
     textMessagesStore:userObj[],
     setTextMessagesStore:React.Dispatch<React.SetStateAction<userObj[]>>,
     socket: any
@@ -33,7 +33,7 @@ type Props = {
 
 export default function DataContextProvider ({children}:Props){
     const [userData, setUserData] = useState<Array<userInfoType>>([])
-    const [messageReciver, setMessageReciver] = useState<userInfoType>()
+    const [messageReciver, setMessageReciver] = useState<userInfoType | null>(null)
     const [textMessagesStore, setTextMessagesStore] = useState<Array<userObj>>([])
     const socket = useRef<any>(null)
     useEffect(()=>{

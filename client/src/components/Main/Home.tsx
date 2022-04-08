@@ -15,23 +15,29 @@ import { Grid, useMediaQuery } from '@mui/material'
 
 const Home = () => {
     const matches: boolean = useMediaQuery('(min-width:600px)')
-    const { messageReciver, setUserData, socket, setTextMessagesStore, textMessagesStore } = useContext(DataContext)
+    const { messageReciver, setUserData, socket, setTextMessagesStore } = useContext(DataContext)
     const [updatedUserData, setUpdatedUSerData] = useState<Array<userInfoType>>([])
     interface userObj {
         message: string,
         id: string,
-        connectorId:string
+        connectorId: string
     }
-    socket.current.on('allNewUserData', (userArray: userInfoType[]) => {
-        setUpdatedUSerData(userArray)
-    })
-    socket.current.on('reciveMessage', (commingMessage: userObj) => {
-        setTextMessagesStore([...textMessagesStore, commingMessage])
-    })
+
     useEffect(() => {
         setUserData(updatedUserData)
         // eslint-disable-next-line
     }, [updatedUserData])
+
+    useEffect(() => {
+        socket.current.on('reciveMessage', (commingMessage: userObj) => {
+            setTextMessagesStore(oldArr => oldArr.concat(commingMessage))
+        })
+
+        socket.current.on('allNewUserData', (userArray: userInfoType[]) => {
+            setUpdatedUSerData(userArray)
+        })
+        // eslint-disable-next-line
+    }, [])
 
     return (
         <>
