@@ -12,6 +12,9 @@ import { Box, Avatar, Typography, Divider, useMediaQuery, CircularProgress  } fr
 import { makeStyles } from '@mui/styles'
 
 
+// components
+import NoActiveUser from './LeftSide/NoActiveUser'
+
 
 const LeftSide = ()=>{
     const matches:boolean = useMediaQuery('(min-width:600px)')
@@ -51,6 +54,7 @@ const LeftSide = ()=>{
         <>
         <Box className={classes.wraper}>
             {userData.length === 0 && <CircularProgress sx={{margin:'50px 180px'}} />}
+            {userData.length === 1 && <NoActiveUser/>}
             {
                 userData.map((ele:userInfoType, index) => {
                     var colorcode = randomColor(
