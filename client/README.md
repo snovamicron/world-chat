@@ -1,46 +1,49 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Logo](https://raw.githubusercontent.com/snovamicron/world-chat/master/client/public/logo512.png?token=GHSAT0AAAAAABSCMCBCCMPUOKCHM5L7AUFOYSQD64Q)
 
-## Available Scripts
 
-In the project directory, you can run:
+# World Chat
 
-### `npm start`
+As the name of the application it is a chat application.
+And ofcourse it's real time. This project entirely written by me.
+To build this project I use main three softwares... this are very
+popualr. This softwares are NODE.js, REACT.js and ofcourse the heart
+of the project socket.io the greate library of NODE.js. If any body 
+want to contribute on this project you are vary vary welcome...
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+## Documentation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The application is vary simple to use.
+Just open the application and it is ask for entering your name
+what ever you want to enter as your name you can enter at the field.
+After entering just click the join button bellow the field or simply
+press enter and you good to go. At the moment of your joining as a 
+connector you can chat with other active connector on the application.
+Make a new friends and enjoy.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Badges
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Add badges from somewhere like: [shields.io](https://shields.io/)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![MERN project](https://img.shields.io/badge/build-MERN-green?)
+![socket.io](https://img.shields.io/badge/server-socket.io-blue) 
+![REACT JS](https://img.shields.io/badge/client-REACT.js-brightgreen)
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Appendix
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This chat dosen't use any kind of databases so your chat on longer
+gonna saved in the application, as soon as you refrash the page or
+close the tab your saved chat gonna remove .
+So be carefull about this the chat dosen't made for important
+porpouse how ever in future maybe I'll implement the database than
+it will be more safe but for now it is not an ideal application it 
+is just a prototype you can say for fun and learn.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Authors
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- [@snovamicron](https://github.com/snovamicron)
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
