@@ -49,7 +49,7 @@ is just a prototype you can say for fun and learn.
 
 ## Application link
 
-- [@snovamicron](https://world-chat-by-nova.herokuapp.com)
+- [@world chat](https://world-chat-by-nova.herokuapp.com)
 
 ## Screenshots
 
