@@ -47,6 +47,10 @@ is just a prototype you can say for fun and learn.
 
 - [@snovamicron](https://github.com/snovamicron)
 
+## Application link
+
+- [@snovamicron](https://world-chat-by-nova.herokuapp.com)
+
 ## Screenshots
 
 ![App Screenshot](https://raw.githubusercontent.com/snovamicron/world-chat/master/client/public/ss%201.png)
