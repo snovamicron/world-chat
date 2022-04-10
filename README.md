@@ -47,3 +47,8 @@ is just a prototype you can say for fun and learn.
 
 - [@snovamicron](https://github.com/snovamicron)
 
+## Screenshots
+
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+
+
