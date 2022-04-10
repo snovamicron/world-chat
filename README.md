@@ -1,5 +1,5 @@
 
-![Logo](https://raw.githubusercontent.com/snovamicron/world-chat/master/page-logo.png)
+![Logo](https://raw.githubusercontent.com/snovamicron/world-chat/6a33ec49165c92c98af0ee292fef9a2a3a42099d/page-logo.png)
 
 
 # World Chat
