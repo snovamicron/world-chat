@@ -49,6 +49,14 @@ is just a prototype you can say for fun and learn.
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://raw.githubusercontent.com/snovamicron/world-chat/master/client/public/ss%201.png)
+
+![App Screenshot](https://raw.githubusercontent.com/snovamicron/world-chat/master/client/public/ss%202.png)
+
+![App Screenshot](https://raw.githubusercontent.com/snovamicron/world-chat/master/client/public/ss%203.png)
+
+![App Screenshot](https://raw.githubusercontent.com/snovamicron/world-chat/master/client/public/ss%204.png)
+
+![App Screenshot](https://raw.githubusercontent.com/snovamicron/world-chat/master/client/public/ss%205.png)
 
 
